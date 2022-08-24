@@ -1,14 +1,14 @@
-let noteTitle;
-let noteText;
+let nTitle;
+let nText;
 let saveNoteBtn;
-let newNoteBtn;
+let newNote;
 let noteList;
 
 if (window.location.pathname === "/notes") {
-  noteTitle = document.querySelector(".note-title");
-  noteText = document.querySelector(".note-textarea");
+  nTitle = document.querySelector(".note-title");
+  nText = document.querySelector(".note-textarea");
   saveNoteBtn = document.querySelector(".save-note");
-  newNoteBtn = document.querySelector(".new-note");
+  newNote = document.querySelector(".new-note");
   noteList = document.querySelectorAll(".list-container .list-group");
 }
 
@@ -55,22 +55,22 @@ const renderActiveNote = () => {
   hide(saveNoteBtn);
 
   if (activeNote.id) {
-    noteTitle.setAttribute("readonly", true);
-    noteText.setAttribute("readonly", true);
-    noteTitle.value = activeNote.title;
-    noteText.value = activeNote.text;
+    nTitle.setAttribute("readonly", true);
+    nText.setAttribute("readonly", true);
+    nTitle.value = activeNote.title;
+    nText.value = activeNote.text;
   } else {
-    noteTitle.removeAttribute("readonly");
-    noteText.removeAttribute("readonly");
-    noteTitle.value = "";
-    noteText.value = "";
+    nTitle.removeAttribute("readonly");
+    nText.removeAttribute("readonly");
+    nTitle.value = "";
+    nText.value = "";
   }
 };
 
 const handleNoteSave = () => {
   const newNote = {
-    title: noteTitle.value,
-    text: noteText.value,
+    title: nTitle.value,
+    text: nText.value,
   };
   saveNote(newNote).then(() => {
     getAndRenderNotes();
@@ -110,7 +110,7 @@ const handleNewNoteView = (e) => {
 };
 
 const handleRenderSaveBtn = () => {
-  if (!noteTitle.value.trim() || !noteText.value.trim()) {
+  if (!nTitle.value.trim() || !nText.value.trim()) {
     hide(saveNoteBtn);
   } else {
     show(saveNoteBtn);
@@ -175,9 +175,9 @@ const getAndRenderNotes = () => getNotes().then(renderNoteList);
 
 if (window.location.pathname === "/notes") {
   saveNoteBtn.addEventListener("click", handleNoteSave);
-  newNoteBtn.addEventListener("click", handleNewNoteView);
-  noteTitle.addEventListener("keyup", handleRenderSaveBtn);
-  noteText.addEventListener("keyup", handleRenderSaveBtn);
+  newNote.addEventListener("click", handleNewNoteView);
+  nTitle.addEventListener("keyup", handleRenderSaveBtn);
+  nText.addEventListener("keyup", handleRenderSaveBtn);
 }
 
 getAndRenderNotes();
