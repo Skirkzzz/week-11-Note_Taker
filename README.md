@@ -3,7 +3,7 @@
 This repository has an application called Note Taker that can be used to write and save notes. This application uses an Express.js back end and will save and retrieve note data from a JSON file.
 
 ##Deployed Application
-![Link to deployed application!](/public/assets/js/NotetakerImg.png)
+![Link to deployed application!](/public/assets/NotetakerImg.png)
 
 ##Commands To Deploy Application
 npm i to install express
