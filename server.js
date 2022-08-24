@@ -1,18 +1,18 @@
-const PORT = process.env.PORT || 3001;
+const PORT = 3001;
 const fs = require("fs");
 const path = require("path");
 
 const express = require("express");
 const app = express();
 
-const allNotes = require("./db/db.json");
+const notes = require("./db/db.json");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 
 app.get("/api/notes", (req, res) => {
-  res.json(allNotes);
+  res.json(notes);
 });
 
 app.get("/", (req, res) => {
@@ -27,33 +27,33 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "./public/index.html"));
 });
 
-function createNewNote(body, notesArray) {
-  const newNote = body;
+function createNotes(body, notesList) {
+  const note = body;
 
   body.id = randomIdGenerator();
 
-  notesArray.push(newNote);
+  notesList.push(note);
   fs.writeFileSync(
     path.join(__dirname, "./db/db.json"),
-    JSON.stringify(notesArray, null, 2)
+    JSON.stringify(notesList, null, 2)
   );
-  return newNote;
+  return note;
 }
 
 app.post("/api/notes", (req, res) => {
-  const newNote = createNewNote(req.body, allNotes);
-  res.json(newNote);
+  const note = createNotes(req.body, notes);
+  res.json(note);
 });
 
-function deleteNote(id, notesArray) {
-  for (let i = 0; i < notesArray.length; i++) {
-    let note = notesArray[i];
+function deleteNote(id, notesList) {
+  for (let i = 0; i < notesList.length; i++) {
+    let note = notesList[i];
 
     if (note.id == id) {
-      notesArray.splice(i, 1);
+      notesList.splice(i, 1);
       fs.writeFileSync(
         path.join(__dirname, "./db/db.json"),
-        JSON.stringify(notesArray, null, 2)
+        JSON.stringify(notesList, null, 2)
       );
 
       break;
@@ -62,7 +62,7 @@ function deleteNote(id, notesArray) {
 }
 
 app.delete("/api/notes/:id", (req, res) => {
-  deleteNote(req.params.id, allNotes);
+  deleteNote(req.params.id, notes);
   res.json(true);
 });
 
